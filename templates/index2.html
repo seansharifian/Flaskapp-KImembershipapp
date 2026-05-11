@@ -1,0 +1,124 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 15 (filtered)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Aptos;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	line-height:115%;
+	font-size:12.0pt;
+	font-family:"Aptos",sans-serif;}
+.MsoChpDefault
+	{font-size:10.0pt;
+	font-family:"Aptos",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US style='word-wrap:break-word'>
+
+<div class=WordSection1>
+
+<p class=MsoNormal>&lt;html&gt;</p>
+
+<p class=MsoNormal>&lt;head&gt;</p>
+
+<p class=MsoNormal>    &lt;title&gt;Member Database&lt;/title&gt;</p>
+
+<p class=MsoNormal>&lt;/head&gt;</p>
+
+<p class=MsoNormal>&lt;body&gt;</p>
+
+<p class=MsoNormal>    &lt;h1&gt;Members&lt;/h1&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    &lt;form method=&quot;POST&quot;
+action=&quot;/add&quot;&gt;</p>
+
+<p class=MsoNormal>        &lt;input name=&quot;name&quot;
+placeholder=&quot;Name&quot; required&gt;</p>
+
+<p class=MsoNormal>        &lt;input name=&quot;email&quot;
+placeholder=&quot;Email&quot; required&gt;</p>
+
+<p class=MsoNormal>        &lt;input name=&quot;amount&quot;
+placeholder=&quot;Payment Amount&quot; required&gt;</p>
+
+<p class=MsoNormal>        &lt;button type=&quot;submit&quot;&gt;Add
+Member&lt;/button&gt;</p>
+
+<p class=MsoNormal>    &lt;/form&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    &lt;table border=&quot;1&quot;&gt;</p>
+
+<p class=MsoNormal>        &lt;tr&gt;</p>
+
+<p class=MsoNormal>            &lt;th&gt;Name&lt;/th&gt;</p>
+
+<p class=MsoNormal>            &lt;th&gt;Email&lt;/th&gt;</p>
+
+<p class=MsoNormal>            &lt;th&gt;Status&lt;/th&gt;</p>
+
+<p class=MsoNormal>            &lt;th&gt;Last Payment&lt;/th&gt;</p>
+
+<p class=MsoNormal>            &lt;th&gt;Action&lt;/th&gt;</p>
+
+<p class=MsoNormal>        &lt;/tr&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>        {% for m in members %}</p>
+
+<p class=MsoNormal>        &lt;tr&gt;</p>
+
+<p class=MsoNormal>            &lt;td&gt;{{ m.name }}&lt;/td&gt;</p>
+
+<p class=MsoNormal>            &lt;td&gt;{{ m.email }}&lt;/td&gt;</p>
+
+<p class=MsoNormal>            &lt;td&gt;{{ m.status }}&lt;/td&gt;</p>
+
+<p class=MsoNormal>            &lt;td&gt;{{ m.last_payment }}&lt;/td&gt;</p>
+
+<p class=MsoNormal>            &lt;td&gt;</p>
+
+<p class=MsoNormal>                &lt;a href=&quot;/update/{{ m.id
+}}&quot;&gt;Mark Paid&lt;/a&gt;</p>
+
+<p class=MsoNormal>            &lt;/td&gt;</p>
+
+<p class=MsoNormal>        &lt;/tr&gt;</p>
+
+<p class=MsoNormal>        {% endfor %}</p>
+
+<p class=MsoNormal>    &lt;/table&gt;</p>
+
+<p class=MsoNormal>&lt;/body&gt;</p>
+
+<p class=MsoNormal>&lt;/html&gt;</p>
+
+</div>
+
+</body>
+
+</html>
