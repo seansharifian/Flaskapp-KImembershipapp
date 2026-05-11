@@ -9,8 +9,6 @@ import shutil
 import sys
 
 import os
-port = int(os.environ.get("PORT", 10000))
-app.run(host="0.0.0.0", port=port)
 
 import csv
 from datetime import datetime
@@ -230,6 +228,12 @@ def restore_database():
 
 @app.route("/")
 def index():
+
+    return render_template("index.html")
+
+    if __name__ == "__main__":
+        port = int(os.environ.get("PORT", 10000))
+        app.run(host="0.0.0.0", port=port)
 
     update_membership_status()
 
