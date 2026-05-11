@@ -5,8 +5,12 @@ import smtplib
 from email.mime.text import MIMEText
 from flask import send_file
 import shutil
-import os
+
 import sys
+
+import os
+port = int(os.environ.get("PORT", 10000))
+app.run(host="0.0.0.0", port=port)
 
 import csv
 from datetime import datetime
@@ -17,11 +21,19 @@ BACKUP_FOLDER = "backups"
 
 os.makedirs(BACKUP_FOLDER, exist_ok=True)
 
+app.secret_key = os.getenv(
+    "SECRET_KEY",
+    "change_this_in_production"
+)
+
 EMAIL = os.getenv("EMAIL")
 APP_PASSWORD = os.getenv("APP_PASSWORD")
 
 def get_db():
-    conn = sqlite3.connect("members.db")
+    conn = sqlite3.connect(
+    "members.db",
+    check_same_thread=False
+    )
     conn.row_factory = sqlite3.Row
     return conn
 
