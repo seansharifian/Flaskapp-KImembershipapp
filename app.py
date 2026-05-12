@@ -70,15 +70,17 @@ with app.app_context():
 # DOWNLOAD DATABASE BACKUP
 # -------------------------------------------------
 
-import os
 from flask import send_file
+import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "members.db")
 
-@app.route("/backup-db")
-def backup_db():
-    members = Member.query.all()
+
+@app.route("/download-db")
+@login_required
+def download_db():
+    return send_file(DB_PATH, as_attachment=True)
 
     data = "first,last,email,amount,status\n"
 
@@ -99,11 +101,11 @@ def backup_db():
 @login_required
 def restore_db():
 
-    file = request.files["dbfile"]
+    file = request.files.get("dbfile")
 
-    if file:
+    if file and file.filename.endswith(".db"):
 
-        file.save("members.db")
+        file.save(DB_PATH)
 
     return redirect(url_for("index"))
 
