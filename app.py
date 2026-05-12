@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, send_file, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user
 from flask_login import login_required, current_user
@@ -15,6 +15,9 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///members.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "members.db")
 
 # -------------------------------------------------
 # LOGIN MANAGER
@@ -72,7 +75,7 @@ with app.app_context():
 
 @app.route("/test-db")
 def test_db():
-    return os.path.exists("members.db")
+    return os.path.exists("members.db")git 
 
 import os
 from flask import send_file, abort
