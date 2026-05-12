@@ -70,27 +70,26 @@ with app.app_context():
 # DOWNLOAD DATABASE BACKUP
 # -------------------------------------------------
 
-from flask import send_file
 import os
+from flask import send_file, abort
 
+# Path to your database file (adjust name if different)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "members.db")
 
 
-@app.route("/download-db")
+@app.route("/backup-db")
 @login_required
-def download_db():
-    return send_file(DB_PATH, as_attachment=True)
+def backup_db():
 
-    data = "first,last,email,amount,status\n"
+    # Check if database exists
+    if not os.path.exists(DB_PATH):
+        return abort(404, description="Database file not found")
 
-    for m in members:
-        data += f"{m.first},{m.last},{m.email},{m.amount},{m.status}\n"
-
-    return Response(
-        data,
-        mimetype="text/csv",
-        headers={"Content-Disposition": "attachment;filename=backup.csv"}
+    return send_file(
+        DB_PATH,
+        as_attachment=True,
+        download_name="members_backup.db"
     )
 
 # -------------------------------------------------
