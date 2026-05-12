@@ -97,7 +97,7 @@ def backup_db():
     return send_file(
         db_path,
         as_attachment=True,
-        download_name="members_backup.db",
+        download_name="members.db",
         mimetype="application/octet-stream"
     )
 
