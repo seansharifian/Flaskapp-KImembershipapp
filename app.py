@@ -5,7 +5,7 @@ from flask_login import login_required, current_user
 from datetime import datetime, timedelta
 import csv
 from flask import send_file
-import os
+
 
 app = Flask(__name__)
 
@@ -15,6 +15,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///members.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
+
+import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "members.db")
@@ -101,12 +103,11 @@ def backup_db():
 @app.route("/restore-db", methods=["POST"])
 @login_required
 def restore_db():
-
     file = request.files.get("dbfile")
 
-    if file and file.filename.endswith(".db"):
-
-        file.save(DB_PATH)
+    if file:
+        backup_path = os.path.join(BASE_DIR, "members_restore.db")
+        file.save(backup_path)
 
     return redirect(url_for("index"))
 
