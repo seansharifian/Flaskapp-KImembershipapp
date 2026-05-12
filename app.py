@@ -73,23 +73,22 @@ with app.app_context():
 import os
 from flask import send_file, abort
 
-# Path to your database file (adjust name if different)
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, "members.db")
-
-
 @app.route("/backup-db")
 @login_required
 def backup_db():
 
-    # Check if database exists
-    if not os.path.exists(DB_PATH):
-        return abort(404, description="Database file not found")
+    # Always build absolute path from current file location
+    db_path = os.path.join(os.path.dirname(__file__), "members.db")
+
+    # Debug safety check
+    if not os.path.exists(db_path):
+        return abort(404, description=f"DB not found at {db_path}")
 
     return send_file(
-        DB_PATH,
+        db_path,
         as_attachment=True,
-        download_name="members_backup.db"
+        download_name="members_backup.db",
+        mimetype="application/octet-stream"
     )
 
 # -------------------------------------------------
