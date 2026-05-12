@@ -73,10 +73,6 @@ with app.app_context():
 # DOWNLOAD DATABASE BACKUP
 # -------------------------------------------------
 
-@app.route("/test-db")
-def test_db():
-    return os.path.exists("members.db")git 
-
 import os
 from flask import send_file, abort
 
