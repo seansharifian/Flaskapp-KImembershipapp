@@ -70,13 +70,25 @@ with app.app_context():
 # DOWNLOAD DATABASE BACKUP
 # -------------------------------------------------
 
-@app.route("/download-db")
-@login_required
-def download_db():
+import os
+from flask import send_file
 
-    return send_file(
-        "members.db",
-        as_attachment=True
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "members.db")
+
+@app.route("/backup-db")
+def backup_db():
+    members = Member.query.all()
+
+    data = "first,last,email,amount,status\n"
+
+    for m in members:
+        data += f"{m.first},{m.last},{m.email},{m.amount},{m.status}\n"
+
+    return Response(
+        data,
+        mimetype="text/csv",
+        headers={"Content-Disposition": "attachment;filename=backup.csv"}
     )
 
 # -------------------------------------------------
