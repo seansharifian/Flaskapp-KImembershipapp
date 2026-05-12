@@ -87,9 +87,6 @@ DB_PATH = os.path.join(BASE_DIR, "members.db")
 @login_required
 def backup_db():
 
-    # Always build absolute path from current file location
-    db_path = os.path.join(os.path.dirname(__file__), "members.db")
-
     # Debug safety check
     if not os.path.exists(db_path):
         return abort(404, description=f"DB not found at {db_path}")
@@ -122,16 +119,18 @@ def restore_db():
         return "No file uploaded", 400
 
     # Step 1: save uploaded backup (whatever name it has)
-     uploaded_path = os.path.join(BASE_DIR, file.filename)
-    file.save(uploaded_path)
+    #  uploaded_path = os.path.join(BASE_DIR, file.filename)
+    #  file.save(uploaded_path)
 
     # Step 2: close active DB session
-    db.session.close()
+    # db.session.close()
+    db.session.remove()
     db.engine.dispose()
 
     # Step 3: replace database file
-    os.replace(uploaded_path, DB_PATH)
-
+    # os.replace(uploaded_path, DB_PATH)
+    file.save(DB_PATH)
+    
     return redirect(url_for("index"))
 
 # -------------------------------------------------
