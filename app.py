@@ -78,6 +78,11 @@ with app.app_context():
 import os
 from flask import send_file, abort
 
+from flask_login import login_required
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "members.db")
+
 @app.route("/backup-db")
 @login_required
 def backup_db():
@@ -100,14 +105,32 @@ def backup_db():
 # RESTORE DATABASE
 # -------------------------------------------------
 
+import os
+from flask import request, redirect, url_for
+from flask_login import login_required
+from yourapp import db  # adjust if needed
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "members.db")
+
 @app.route("/restore-db", methods=["POST"])
 @login_required
 def restore_db():
     file = request.files.get("dbfile")
 
-    if file:
-        backup_path = os.path.join(BASE_DIR, "members_restore.db")
-        file.save(backup_path)
+    if not file:
+        return "No file uploaded", 400
+
+    # Step 1: save uploaded backup (whatever name it has)
+     uploaded_path = os.path.join(BASE_DIR, file.filename)
+    file.save(uploaded_path)
+
+    # Step 2: close active DB session
+    db.session.close()
+    db.engine.dispose()
+
+    # Step 3: replace database file
+    os.replace(uploaded_path, DB_PATH)
 
     return redirect(url_for("index"))
 
