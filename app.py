@@ -4,6 +4,8 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user
 from flask_login import login_required, current_user
 from datetime import datetime, timedelta
 import csv
+from flask import send_file
+import os
 
 app = Flask(__name__)
 
@@ -63,6 +65,35 @@ with app.app_context():
         admin = User(username="admin", password="admin123")
         db.session.add(admin)
         db.session.commit()
+
+# -------------------------------------------------
+# DOWNLOAD DATABASE BACKUP
+# -------------------------------------------------
+
+@app.route("/download-db")
+@login_required
+def download_db():
+
+    return send_file(
+        "members.db",
+        as_attachment=True
+    )
+
+# -------------------------------------------------
+# RESTORE DATABASE
+# -------------------------------------------------
+
+@app.route("/restore-db", methods=["POST"])
+@login_required
+def restore_db():
+
+    file = request.files["dbfile"]
+
+    if file:
+
+        file.save("members.db")
+
+    return redirect(url_for("index"))
 
 # -------------------------------------------------
 # LOGIN LOADER

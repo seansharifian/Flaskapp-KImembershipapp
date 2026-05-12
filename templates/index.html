@@ -174,27 +174,61 @@
 
     <!-- ACTIONS -->
 
-    <div class="mb-4">
+   <div class="mb-4">
 
-        <form action="/import" method="POST" enctype="multipart/form-data" class="d-inline">
+    <!-- CSV IMPORT -->
 
-            <input type="file" name="file">
+    <form
+        action="/import"
+        method="POST"
+        enctype="multipart/form-data"
+        class="d-inline"
+    >
 
-            <button class="btn btn-success">
-                Import CSV
-            </button>
+        <input type="file" name="file">
 
-        </form>
+        <button class="btn btn-success">
+            Import CSV
+        </button>
 
-        <a href="/backup" class="btn btn-secondary">
-            Backup CSV
-        </a>
+    </form>
 
-        <a href="/send-reminders" class="btn btn-warning">
-            Send Renewal Reminders
-        </a>
+    <!-- CSV BACKUP -->
 
-    </div>
+    <a href="/backup" class="btn btn-secondary">
+        Export CSV
+    </a>
+
+    <!-- DATABASE DOWNLOAD -->
+
+    <a href="/download-db" class="btn btn-dark">
+        Backup Database
+    </a>
+
+    <!-- DATABASE RESTORE -->
+
+    <form
+        action="/restore-db"
+        method="POST"
+        enctype="multipart/form-data"
+        class="d-inline"
+    >
+
+        <input type="file" name="dbfile">
+
+        <button class="btn btn-danger">
+            Restore Database
+        </button>
+
+    </form>
+
+    <!-- EMAIL REMINDERS -->
+
+    <a href="/send-reminders" class="btn btn-warning">
+        Send Renewal Reminders
+    </a>
+
+</div>
 
     <!-- MEMBERS TABLE -->
 
